@@ -1,0 +1,73 @@
+---
+title: "Cache Matrix Assignment"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+To test the functions in this assignment, we first need to source the code file:
+
+```{r}
+source('cachematrix.R')
+```
+
+## Function `makeCacheMatrix`
+
+To create a special matrix object with `makeCacheMatrix`, we need to pass an R
+matrix value to it. E.g., suppose we want to create a 2x2 matrix with the
+following values:
+
+$$x = \begin{bmatrix}
+-1 & \frac{3}{2}\\
+1 & -1
+\end{bmatrix}$$
+
+We can create this matrix using, for example, `rbind` and `makeCacheMatrix`:
+
+```{r}
+x <- makeCacheMatrix(rbind(c(-1, 3/2), c(1, -1)))
+```
+
+To confirm the matrix object was successfully create, we can retrieve its value
+by calling the object `get` function:
+
+```{r}
+x$get()
+```
+
+The matrix object can cache the inverse of the matrix. Initially, its value is
+set to `NULL`, as calling the function doesn't compute it:
+
+```{r}
+x$getInverse()
+```
+
+## Function `cacheSolve`
+
+To compute the inverse of a matrix with `cacheSolve`, we need to pass a matrix
+object created with the function `makeCacheMatrix`, as the former relies on the
+attributes of the latter.
+
+Continuing with the example matrix `x` created in the previous session, we can
+simply call the function as below:
+
+```{r}
+cacheSolve(x)
+```
+
+After calling the function, we can observe that, now, the matrix object `x` has
+contains the cached value of the inverse of the matrix:
+
+```{r}
+x$getInverse()
+```
+
+The secondary purpose of the function is to use cached values for the inverse of
+a matrix if it's available. If we call it again, passing the same matrix `x`,
+the function will echo a message saying it's using the cache value:
+
+```{r message = TRUE}
+cacheSolve(x)
+```
